@@ -71,40 +71,44 @@ getYForNum num =
         1
 
 
+getPositionString : Int -> (Int -> Int) -> Int -> String
+getPositionString size unitFinder value =
+    toString (-size * unitFinder value) ++ "px"
+
+
 getBackgroundX : Model -> ( String, String )
 getBackgroundX model =
     let
         width =
             130
     in
-    ( "backgroundPositionX", toString (-width * getXForNum model.dieFace) ++ "px" )
+    ( "backgroundPositionX", getPositionString width getXForNum model.dieFace )
 
 
 getBackgroundY : Model -> ( String, String )
 getBackgroundY model =
     let
-        width =
+        height =
             130
     in
-    ( "backgroundPositionY", toString (-width * getYForNum model.dieFace) ++ "px" )
+    ( "backgroundPositionY", getPositionString height getYForNum model.dieFace )
 
 
 view : Model -> Html Msg
 view model =
     div []
-        [ h1 [] [ text (toString model.dieFace) ]
-        , div
+        [ div
             [ style
                 [ ( "backgroundImage"
                   , "url(https://upload.wikimedia.org/wikipedia/commons/e/ec/Kismet_Die_Faces.png)"
                   )
-                , ( "width", "133px" )
+                , ( "width", "130px" )
                 , ( "height", "130px" )
                 , getBackgroundX model
                 , getBackgroundY model
                 ]
             ]
-            []
+            [ text (toString model.dieFace) ]
         , button [ onClick Roll ] [ text "Roll" ]
         ]
 
